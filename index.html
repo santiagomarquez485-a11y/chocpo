@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Niño & Súper Niño</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #0f172a;
+            --primary-light: #1e293b;
+            --accent-warm: #f97316;
+            --accent-danger: #ef4444;
+            --accent-cool: #0284c7;
+            --bg-light: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #334155;
+            --text-muted: #64748b;
+            --radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* ================================
+           BARRA SUPERIOR
+        ================================= */
+
+        .top-bar {
+            background: linear-gradient(90deg, #dc2626, #ea580c);
+            color: white;
+            text-align: center;
+            padding: 8px 16px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* ================================
+           HEADER
+        ================================= */
+
+        header {
+            background-color: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(8px);
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            gap: 1.5rem;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        .logo {
+            color: #fff;
+            font-size: 1.4rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        nav ul li a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        nav ul li a:hover {
+            color: var(--accent-warm);
+        }
+
+        /* ================================
+           HERO
+        ================================= */
+
+        .hero {
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(15, 23, 42, 0.85),
+                    rgba(30, 41, 59, 0.75)
+                ),
+                url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80')
+                center/cover no-repeat;
+
+            min-height: 70vh;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 4rem 1.5rem;
+        }
+
+        .hero-content {
+            max-width: 850px;
+        }
+
+        .hero-badge {
+            background: rgba(249, 115, 22, 0.2);
+            color: #fdba74;
+            border: 1px solid rgba(249, 115, 22, 0.4);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 1.25rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            margin-bottom: 2rem;
+        }
+
+        /* ================================
+           ESTADÍSTICAS
+        ================================= */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            max-width: 1280px;
+            margin: -3rem auto 3rem;
+            padding: 0 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .stat-card .num {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--accent-warm);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        /* ================================
+           CONTENEDOR
+        ================================= */
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem 4rem;
+        }
+
+        section {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 3rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            scroll-margin-top: 100px;
+        }
+
+        .section-header {
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: var(--primary);
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--accent-warm);
+            margin-top: 8px;
+            border-radius: 2px;
+        }
+
+        .lead-text {
+            font-size: 1.1rem;
+            color: #475569;
+        }
+
+        /* ================================
+           GRILLAS
+        ================================= */
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--radius);
+            padding: 1.75rem;
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px -5px rgba(0,0,0,0.08);
+            border-color: var(--accent-warm);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* ================================
+           IMÁGENES
+        ================================= */
+
+        .img-wrapper {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            margin: 1.5rem 0;
+        }
+
+        .img-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .img-wrapper:hover img {
+            transform: scale(1.02);
+        }
+
+        .caption {
+            background: rgba(15, 23, 42, 0.85);
+            color: #f1f5f9;
+            padding: 10px 16px;
+            font-size: 0.85rem;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* ================================
+           TABLA
+        ================================= */
+
+        .table-responsive {
+            overflow-x: auto;
+            margin-top: 2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th,
+        td {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        /* ================================
+           FAQ
+        ================================= */
+
+        details {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            padding: 1rem 1.25rem;
+            transition: var(--transition);
+        }
+
+        details[open] {
+            background: #fff;
+            border-color: var(--accent-warm);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+
+        summary {
+            font-weight: 700;
+            color: var(--primary);
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        summary::after {
+            content: '+';
+            font-size: 1.4rem;
+            color: var(--accent-warm);
+        }
+
+        details[open] summary::after {
+            content: '−';
+        }
+
+        details p {
+            margin-top: 1rem;
+            color: var(--text-main);
+        }
+
+        /* ================================
+           FOOTER
+        ================================= */
+
+        footer {
+            background-color: var(--primary);
+            color: #94a3b8;
+            padding: 4rem 1.5rem 2rem;
+        }
+
+        .footer-grid {
+            max-width: 1280px;
+            margin: 0 auto 3rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .footer-col h4 {
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-col p {
+            font-size: 0.9rem;
+        }
+
+        .footer-bottom {
+            max-width: 1280px;
+            margin: 0 auto;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 1.5rem;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        /* ================================
+           RESPONSIVE
+        ================================= */
+
+        @media (max-width: 900px) {
+
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-left {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+
+            section {
+                padding: 1.75rem;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================================
+         BARRA SUPERIOR
+    ================================= -->
+
+    <div class="top-bar">
+        ⚠️ ESTADO ACTUAL: Monitoreo Activo ENOS - Zona Niño 3.4 bajo Vigilancia Meteorológica Global
+    </div>
+
+    <!-- ================================
+         NAVEGACIÓN
+    ================================= -->
+
+    <header>
+        <nav>
+
+            <ul class="nav-left">
+
+                <!-- SOLO ICONO, SIN "GEOCLIMA GLOBAL" -->
+                <li>
+                    <a href="#" class="logo">🌐</a>
+                </li>
+
+                <li>
+                    <a href="#" onclick="abrirEnProceso(event, 'Educación Ambiental')">
+                        Educación Ambiental
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" onclick="abrirEnProceso(event, 'Lengua Castellana')">
+                        Lengua Castellana
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+    </header>
+
+    <!-- ================================
+         HERO
+    ================================= -->
+
+    <div class="hero">
+
+        <div class="hero-content">
+
+            <span class="hero-badge">
+                Oceanografía & Climatología
+            </span>
+
+            <h1>
+                El Fenómeno de El Niño y los Eventos Súper Niño
+            </h1>
+
+            <p>
+                Descubre los complejos mecanismos oceánico-atmosféricos
+                que modulan las temperaturas globales, perturban la economía
+                planetaria y reconfiguran los patrones de precipitación.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- ================================
+         ESTADÍSTICAS
+    ================================= -->
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+            <div class="num">+2.0 °C</div>
+            <div class="label">
+                Umbral térmico marino para calificar un "Súper Niño"
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="num">2 a 7</div>
+            <div class="label">
+                Años entre el retorno de cada ciclo de ENOS
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="num">$3.5T</div>
+            <div class="label">
+                Pérdidas macroeconómicas globales estimadas
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="num">98%</div>
+            <div class="label">
+                De correlación con episodios de blanqueamiento coralino masivo
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ================================
+         CONTENIDO PRINCIPAL
+    ================================= -->
+
+    <div class="container">
+
+        <!-- SECCIÓN 1 -->
+
+        <section id="enos">
+
+            <div class="section-header">
+
+                <h2>
+                    1. ¿Qué es el Fenómeno ENOS?
+                </h2>
+
+                <p class="lead-text">
+                    El sistema océano-atmósfera del Pacífico ecuatorial
+                    y su ciclo oscilatorio natural.
+                </p>
+
+            </div>
+
+            <p>
+                El fenómeno conocido globalmente como
+                <strong>El Niño - Oscilación del Sur (ENOS)</strong>
+                representa la fluctuación interanual más potente del
+                sistema climático terrestre.
+            </p>
+
+            <div class="grid-2">
+
+                <div>
+
+                    <h3>
+                        Las Tres Fases del Ciclo:
+                    </h3>
+
+                    <ul>
+
+                        <li>
+                            <strong>Fase Neutra:</strong>
+                            Vientos alisios estables.
+                        </li>
+
+                        <li>
+                            <strong>El Niño:</strong>
+                            Calentamiento anómalo en el Pacífico central y oriental.
+                        </li>
+
+                        <li>
+                            <strong>La Niña:</strong>
+                            Enfriamiento anómalo de las aguas ecuatoriales.
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                <div class="img-wrapper">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=1000&q=80"
+                        alt="Superficie Marina del Océano Pacífico"
+                    >
+
+                    <div class="caption">
+                        La transferencia de calor latente desde el océano
+                        impulsa tormentas extremas a nivel global.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- SECCIÓN 2 -->
+
+        <section id="mecanismo">
+
+            <div class="section-header">
+
+                <h2>
+                    2. Dinámica de la Circulación de Walker
+                </h2>
+
+                <p class="lead-text">
+                    Cómo la alteración de los vientos alisios desplaza
+                    las masas de agua y cambia el clima global.
+                </p>
+
+            </div>
+
+            <div class="grid-2">
+
+                <div>
+
+                    <h3>
+                        Condiciones Normales vs. El Niño
+                    </h3>
+
+                    <p>
+                        En estado neutro, la
+                        <strong>Circulación de Walker</strong>
+                        arrastra las aguas cálidas superficiales hacia el oeste.
+                    </p>
+
+                    <p>
+                        Durante El Niño, los vientos alisios pierden fuerza
+                        y la masa de agua cálida fluye hacia el este.
+                    </p>
+
+                </div>
+
+                <div
+                    class="card"
+                    style="background:#eff6ff; border-color:#bfdbfe;"
+                >
+
+                    <h3 style="color:#1e40af;">
+                        📌 La Zona Niño 3.4
+                    </h3>
+
+                    <p>
+                        Es una región clave del Pacífico ecuatorial
+                        utilizada para el seguimiento del ENOS.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- SECCIÓN 3 -->
+
+        <section id="super-nino">
+
+            <div class="section-header">
+
+                <h2>
+                    3. El Fenómeno "Súper Niño"
+                </h2>
+
+                <p class="lead-text">
+                    Episodios extremos donde la anomalía térmica
+                    alcanza valores excepcionalmente altos.
+                </p>
+
+            </div>
+
+            <p>
+                "Súper Niño" es un término utilizado de manera informal
+                para describir eventos excepcionalmente intensos.
+            </p>
+
+            <div class="grid-cards">
+
+                <div class="card">
+
+                    <h3>
+                        Súper Niño 1982 - 1983
+                    </h3>
+
+                    <p>
+                        Produjo sequías y lluvias extremas
+                        en distintas regiones del planeta.
+                    </p>
+
+                </div>
+
+                <div class="card">
+
+                    <h3>
+                        Súper Niño 1997 - 1998
+                    </h3>
+
+                    <p>
+                        Fue uno de los eventos ENOS más intensos
+                        registrados durante el siglo XX.
+                    </p>
+
+                </div>
+
+                <div class="card">
+
+                    <h3>
+                        Súper Niño 2015 - 2016
+                    </h3>
+
+                    <p>
+                        Coincidió con temperaturas globales
+                        excepcionalmente elevadas.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- SECCIÓN 4 -->
+
+        <section id="comparativa">
+
+            <div class="section-header">
+
+                <h2>
+                    4. Cuadro Comparativo del ENOS
+                </h2>
+
+                <p class="lead-text">
+                    Principales características diferenciales
+                    entre las tres manifestaciones del ciclo.
+                </p>
+
+            </div>
+
+            <div class="table-responsive">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Característica</th>
+                            <th>La Niña</th>
+                            <th>El Niño</th>
+                            <th>Evento extremo</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>
+                                <strong>Anomalía Térmica</strong>
+                            </td>
+
+                            <td>
+                                Inferior a -0.5 °C
+                            </td>
+
+                            <td>
+                                Superior a +0.5 °C
+                            </td>
+
+                            <td>
+                                Valores excepcionalmente altos
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>
+                                <strong>Vientos Alisios</strong>
+                            </td>
+
+                            <td>
+                                Fortalecidos
+                            </td>
+
+                            <td>
+                                Debilitados
+                            </td>
+
+                            <td>
+                                Alteración intensa
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>
+                                <strong>Costas de Sudamérica</strong>
+                            </td>
+
+                            <td>
+                                Aguas más frías
+                            </td>
+
+                            <td>
+                                Mayor precipitación
+                            </td>
+
+                            <td>
+                                Precipitaciones extremas
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>
+                                <strong>Australia / Indonesia</strong>
+                            </td>
+
+                            <td>
+                                Mayor humedad
+                            </td>
+
+                            <td>
+                                Condiciones más secas
+                            </td>
+
+                            <td>
+                                Sequías intensas
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>
+                                <strong>Corales</strong>
+                            </td>
+
+                            <td>
+                                Riesgo variable
+                            </td>
+
+                            <td>
+                                Riesgo de blanqueamiento
+                            </td>
+
+                            <td>
+                                Riesgo elevado de blanqueamiento
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+        <!-- SECCIÓN 5 -->
+
+        <section id="impactos">
+
+            <div class="section-header">
+
+                <h2>
+                    5. Impactos Ecológicos y Socioeconómicos
+                </h2>
+
+                <p class="lead-text">
+                    El efecto dominó de las anomalías oceánicas
+                    en los ecosistemas y las actividades humanas.
+                </p>
+
+            </div>
+
+            <div class="grid-cards">
+
+                <div class="card">
+
+                    <h3>
+                        🎣 Pesca
+                    </h3>
+
+                    <p>
+                        Los cambios en el afloramiento modifican
+                        la disponibilidad de nutrientes y peces.
+                    </p>
+
+                </div>
+
+                <div class="card">
+
+                    <h3>
+                        🌾 Agricultura
+                    </h3>
+
+                    <p>
+                        Las variaciones de lluvia y temperatura
+                        pueden afectar los rendimientos agrícolas.
+                    </p>
+
+                </div>
+
+                <div class="card">
+
+                    <h3>
+                        ⚡ Energía
+                    </h3>
+
+                    <p>
+                        Las alteraciones de las precipitaciones
+                        pueden afectar los sistemas hidroeléctricos.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="img-wrapper">
+
+                <img
+                    src="https://images.unsplash.com/photo-1545134969-8debd725b007?auto=format&fit=crop&w=1200&q=80"
+                    alt="Suelo Agrietado por Sequía"
+                >
+
+                <div class="caption">
+                    Las sequías pueden intensificarse en algunas
+                    regiones durante determinados episodios de El Niño.
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- SECCIÓN 6 -->
+
+        <section id="mitigacion">
+
+            <div class="section-header">
+
+                <h2>
+                    6. Mitigación, Alerta Temprana y Resiliencia
+                </h2>
+
+                <p class="lead-text">
+                    Estrategias modernas de anticipación
+                    ante eventos climáticos severos.
+                </p>
+
+            </div>
+
+            <p>
+                Debido a que no es posible evitar la ocurrencia
+                de los ciclos de ENOS, los esfuerzos se enfocan
+                en la adaptación y la prevención.
+            </p>
+
+            <div class="grid-2">
+
+                <div class="card">
+
+                    <h3>
+                        1. Monitoreo Climático
+                    </h3>
+
+                    <p>
+                        Uso de boyas oceánicas, satélites
+                        y modelos climáticos.
+                    </p>
+
+                </div>
+
+                <div class="card">
+
+                    <h3>
+                        2. Gestión Agrícola
+                    </h3>
+
+                    <p>
+                        Uso de variedades resistentes
+                        y sistemas de riego eficientes.
+                    </p>
+
+                </div>
+
+                <div class="card">
+
+                    <h3>
+                        3. Infraestructura Resiliente
+                    </h3>
+
+                    <p>
+                        Mejora de drenajes, cauces
+                        y sistemas de transporte.
+                    </p>
+
+                </div>
+
+                <div class="card">
+
+                    <h3>
+                        4. Salud Pública
+                    </h3>
+
+                    <p>
+                        Preparación ante enfermedades
+                        asociadas a cambios ambientales.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- SECCIÓN 7 -->
+
+        <section id="faq">
+
+            <div class="section-header">
+
+                <h2>
+                    7. Preguntas Frecuentes
+                </h2>
+
+                <p class="lead-text">
+                    Respuestas rápidas sobre El Niño.
+                </p>
+
+            </div>
+
+            <details>
+
+                <summary>
+                    ¿Por qué se llama "El Niño"?
+                </summary>
+
+                <p>
+                    El nombre está relacionado con la observación
+                    histórica de aguas cálidas frente a las costas
+                    de Perú alrededor de la época de Navidad.
+                </p>
+
+            </details>
+
+            <details>
+
+                <summary>
+                    ¿El cambio climático causa El Niño?
+                </summary>
+
+                <p>
+                    El ENOS es una variabilidad natural del sistema
+                    climático. El calentamiento global puede modificar
+                    el contexto en el que ocurren sus impactos.
+                </p>
+
+            </details>
+
+            <details>
+
+                <summary>
+                    ¿Cuánto dura típicamente un evento El Niño?
+                </summary>
+
+                <p>
+                    Muchos episodios duran varios meses y suelen
+                    alcanzar su máxima intensidad hacia finales
+                    de un año o comienzos del siguiente.
+                </p>
+
+            </details>
+
+        </section>
+
+    </div>
+
+    <!-- ================================
+         FOOTER
+    ================================= -->
+
+    <footer>
+
+        <div class="footer-grid">
+
+            <div class="footer-col">
+
+                <h4>
+                    Ciencias de la Tierra
+                </h4>
+
+                <p>
+                    Plataforma dedicada a la divulgación científica,
+                    análisis oceanográfico y educación ambiental.
+                </p>
+
+            </div>
+
+            <div class="footer-col">
+
+                <h4>
+                    Fuentes & Referencias
+                </h4>
+
+                <p>
+                    • NOAA Climate Prediction Center<br>
+                    • Organización Meteorológica Mundial<br>
+                    • IPCC<br>
+                    • IMARPE
+                </p>
+
+            </div>
+
+            <div class="footer-col">
+
+                <h4>
+                    Contacto Educativo
+                </h4>
+
+                <p>
+                    Para consultas académicas o proyectos
+                    relacionados con las Ciencias de la Tierra.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+
+            <p>
+                &copy; 2026. Página educativa sobre ENOS.
+            </p>
+
+        </div>
+
+    </footer>
+
+    <!-- ================================
+         JAVASCRIPT
+         ABRIR EDUCACIÓN / LENGUA
+         CONSERVANDO LA BARRA
+    ================================= -->
+
+    <script>
+
+        function abrirEnProceso(e, titulo) {
+
+            e.preventDefault();
+
+            const nuevaVentana = window.open('', '_blank');
+
+            nuevaVentana.document.write(`
+
+                <!DOCTYPE html>
+
+                <html lang="es">
+
+                <head>
+
+                    <meta charset="UTF-8">
+
+                    <meta
+                        name="viewport"
+                        content="width=device-width, initial-scale=1.0"
+                    >
+
+                    <title>${titulo}</title>
+
+                    <link
+                        rel="preconnect"
+                        href="https://fonts.googleapis.com"
+                    >
+
+                    <link
+                        rel="preconnect"
+                        href="https://fonts.gstatic.com"
+                        crossorigin
+                    >
+
+                    <link
+                        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap"
+                        rel="stylesheet"
+                    >
+
+                    <style>
+
+                        * {
+                            margin: 0;
+                            padding: 0;
+                            box-sizing: border-box;
+                            font-family: 'Inter', sans-serif;
+                        }
+
+                        body {
+                            background: #f8fafc;
+                            color: #334155;
+                            min-height: 100vh;
+                        }
+
+                        /* BARRA ROJA */
+
+                        .top-bar {
+                            background:
+                                linear-gradient(
+                                    90deg,
+                                    #dc2626,
+                                    #ea580c
+                                );
+
+                            color: white;
+
+                            text-align: center;
+
+                            padding: 8px 16px;
+
+                            font-size: 0.875rem;
+
+                            font-weight: 600;
+
+                            letter-spacing: 0.5px;
+                        }
+
+                        /* NAVEGACIÓN */
+
+                        header {
+                            background-color: #0f172a;
+
+                            position: sticky;
+
+                            top: 0;
+
+                            width: 100%;
+
+                            z-index: 1000;
+
+                            border-bottom:
+                                1px solid
+                                rgba(255,255,255,0.1);
+                        }
+
+                        nav {
+                            display: flex;
+
+                            align-items: center;
+
+                            max-width: 1280px;
+
+                            margin: 0 auto;
+
+                            padding: 1rem 2rem;
+                        }
+
+                        .nav-left {
+                            display: flex;
+
+                            align-items: center;
+
+                            list-style: none;
+
+                            gap: 1.5rem;
+                        }
+
+                        .logo {
+                            color: white;
+
+                            font-size: 1.4rem;
+
+                            text-decoration: none;
+                        }
+
+                        nav a {
+                            color: white;
+
+                            text-decoration: none;
+
+                            font-weight: 600;
+
+                            font-size: 0.95rem;
+
+                            transition: 0.3s;
+                        }
+
+                        nav a:hover {
+                            color: #f97316;
+                        }
+
+                        /* CONTENIDO */
+
+                        .contenido {
+
+                            min-height:
+                                calc(100vh - 100px);
+
+                            display: flex;
+
+                            justify-content: center;
+
+                            align-items: center;
+
+                            padding: 40px 20px;
+                        }
+
+                        .box {
+
+                            background: white;
+
+                            padding: 3rem;
+
+                            border-radius: 16px;
+
+                            border: 1px solid #e2e8f0;
+
+                            box-shadow:
+                                0 10px 30px
+                                rgba(0,0,0,0.08);
+
+                            max-width: 600px;
+
+                            width: 100%;
+
+                            text-align: center;
+                        }
+
+                        .icon {
+                            font-size: 4rem;
+                            margin-bottom: 1rem;
+                        }
+
+                        h1 {
+
+                            font-size: 2rem;
+
+                            color: #0f172a;
+
+                            margin-bottom: 1rem;
+                        }
+
+                        .linea {
+
+                            width: 60px;
+
+                            height: 4px;
+
+                            background: #f97316;
+
+                            margin:
+                                0 auto 1.5rem;
+
+                            border-radius: 2px;
+                        }
+
+                        p {
+
+                            color: #64748b;
+
+                            line-height: 1.7;
+
+                            margin-bottom: 1.5rem;
+                        }
+
+                        .btn-volver {
+
+                            background: #0f172a;
+
+                            color: white;
+
+                            border: none;
+
+                            padding: 12px 22px;
+
+                            border-radius: 30px;
+
+                            font-size: 0.95rem;
+
+                            font-weight: 600;
+
+                            cursor: pointer;
+
+                            transition: 0.3s;
+                        }
+
+                        .btn-volver:hover {
+
+                            background: #f97316;
+
+                            transform:
+                                translateY(-2px);
+                        }
+
+                        @media (max-width: 700px) {
+
+                            nav {
+                                flex-direction: column;
+                                gap: 1rem;
+                            }
+
+                            .nav-left {
+                                flex-wrap: wrap;
+                                justify-content: center;
+                            }
+
+                            .box {
+                                padding: 2rem 1.5rem;
+                            }
+                        }
+
+                    </style>
+
+                </head>
+
+                <body>
+
+                    <!-- MISMA BARRA ROJA -->
+
+                    <div class="top-bar">
+
+                        ⚠️ ESTADO ACTUAL:
+                        Monitoreo Activo ENOS -
+                        Zona Niño 3.4 bajo
+                        Vigilancia Meteorológica Global
+
+                    </div>
+
+                    <!-- MISMA BARRA DE NAVEGACIÓN -->
+
+                    <header>
+
+                        <nav>
+
+                            <ul class="nav-left">
+
+                                <li>
+                                    <a href="#" class="logo">
+                                        🌐
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="#">
+                                        Educación Ambiental
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="#">
+                                        Lengua Castellana
+                                    </a>
+                                </li>
+
+                            </ul>
+
+                        </nav>
+
+                    </header>
+
+                    <!-- MENSAJE -->
+
+                    <main class="contenido">
+
+                        <div class="box">
+
+                            <div class="icon">
+                                🚧
+                            </div>
+
+                            <h1>
+                                Sección en Proceso
+                            </h1>
+
+                            <div class="linea"></div>
+
+                            <p>
+                                El módulo de
+                                <strong>${titulo}</strong>
+                                se encuentra actualmente
+                                bajo desarrollo editorial
+                                y pedagógico.
+                            </p>
+
+                            <button
+                                class="btn-volver"
+                                onclick="window.close()"
+                            >
+                                ← Volver
+                            </button>
+
+                        </div>
+
+                    </main>
+
+                </body>
+
+                </html>
+
+            `);
+
+            nuevaVentana.document.close();
+        }
+
+    </script>
+
+</body>
+</html>
